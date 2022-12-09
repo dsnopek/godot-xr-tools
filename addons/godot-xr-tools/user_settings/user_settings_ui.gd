@@ -7,12 +7,16 @@ extends TabContainer
 func _update():
 	# Input
 	$Input/SnapTurning/SnapTurningCB.button_pressed = XRToolsUserSettings.snap_turning
+	$Input/WebXR/WebXRPrimary.selected = XRToolsUserSettings.webxr_primary
 
 	# Player
 	$Player/PlayerHeight/PlayerHeightSlider.value = XRToolsUserSettings.player_height_adjust
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if XRToolsWebXR.is_available():
+		$Input/WebXR.visible = true
+	
 	if XRToolsUserSettings:
 		_update()
 	else:
@@ -53,3 +57,5 @@ func _on_PlayerHeightStandard_pressed():
 	$Player/PlayerHeight/PlayerHeightSlider.value = XRToolsUserSettings.player_height_adjust
 
 
+func _on_web_xr_primary_item_selected(index: int) -> void:
+	XRToolsUserSettings.webxr_primary = index
