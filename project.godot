@@ -304,6 +304,7 @@ config/icon="res://icon.png"
 [autoload]
 
 XRToolsUserSettings="*res://addons/godot-xr-tools/user_settings/user_settings.gd"
+XRToolsWebXR="*res://addons/godot-xr-tools/webxr/webxr.gd"
 
 [editor_plugins]
 
