@@ -39,13 +39,15 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 	# Skip if the controller isn't active
 	if !_controller.get_is_active():
 		return
+	
+	var real_input_action: String = XRToolsWebXR.convert_input_action(_controller, input_action) if XRToolsWebXR.is_available() else input_action
 
 	# Apply forwards/backwards ground control
-	player_body.ground_control_velocity.y += _controller.get_axis(input_action).y * max_speed
+	player_body.ground_control_velocity.y += _controller.get_axis(real_input_action).y * max_speed
 
 	# Apply left/right ground control
 	if strafe:
-		player_body.ground_control_velocity.x += _controller.get_axis(input_action).x * max_speed
+		player_body.ground_control_velocity.x += _controller.get_axis(real_input_action).x * max_speed
 
 	# Clamp ground control
 	var length := player_body.ground_control_velocity.length()

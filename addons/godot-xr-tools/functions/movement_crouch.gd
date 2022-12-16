@@ -54,7 +54,8 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 		return
 
 	# Detect crouch button down and pressed states
-	var crouch_button_down := _controller.is_button_pressed(crouch_button_action)
+	var real_crouch_button_action: String = XRToolsWebXR.convert_input_action(_controller, crouch_button_action) if XRToolsWebXR.is_available() else crouch_button_action
+	var crouch_button_down := _controller.is_button_pressed(real_crouch_button_action)
 	var crouch_button_pressed := crouch_button_down and !_crouch_button_down
 	_crouch_button_down = crouch_button_down
 

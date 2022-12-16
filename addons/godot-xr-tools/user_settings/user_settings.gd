@@ -1,5 +1,10 @@
 extends Node
 
+enum WebXRPrimary {
+	AUTO,
+	THUMBSTICK,
+	TRACKPAD,
+}
 
 ## User setting for snap-turn
 @export var snap_turning : bool = true
@@ -7,6 +12,8 @@ extends Node
 ## User setting for player height adjust
 @export var player_height_adjust : float = 0.0: set = set_player_height_adjust
 
+## User setting for WebXR primary
+@export_enum(WebXRPrimary) var webxr_primary : int = WebXRPrimary.AUTO: set = set_webxr_primary
 
 ## Settings file name to persist user settings
 var settings_file_name : String = "user://xtools_user_settings.json"
@@ -22,6 +29,7 @@ func reset_to_defaults() -> void:
 	# Reset to defaults
 	snap_turning = XRTools.get_default_snap_turning()
 	player_height_adjust = 0.0
+	webxr_primary = WebXRPrimary.AUTO
 
 
 ## Set the player height adjust property
@@ -29,12 +37,18 @@ func set_player_height_adjust(new_value : float) -> void:
 	player_height_adjust = clamp(new_value, -1.0, 1.0)
 
 
+## Set the WebXR primary
+func set_webxr_primary(new_value : int) -> void:
+	webxr_primary = new_value
+
+
 ## Save the settings to file
 func save() -> void:
 	# Construct the settings dictionary
 	var data = {
 		"input" : {
-			"default_snap_turning" : snap_turning
+			"default_snap_turning" : snap_turning,
+			"webxr_primary" : webxr_primary,
 		},
 		"player" : {
 			"height_adjust" : player_height_adjust
@@ -72,6 +86,8 @@ func _load() -> void:
 		var input : Dictionary = data["input"]
 		if input.has("default_snap_turning"):
 			snap_turning = input["default_snap_turning"]
+		if input.has("webxr_primary"):
+			webxr_primary = input["webxr_primary"]
 
 	# Parse our player settings
 	if data.has("player"):
