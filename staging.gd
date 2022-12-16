@@ -7,14 +7,14 @@ extends XRToolsStaging
 # to create an environment in which you can background load
 # scenes and switch between them.
 #
-# There is also some example code here on how to react to 
+# There is also some example code here on how to react to
 # the player taking their headset on/off.
 #
 # The primary function here is to trigger the
-# "Press to continue" dialog when switching scenes. 
+# "Press to continue" dialog when switching scenes.
 # We do not want to enter our just loaded scene when the
 # player is still thumbling around putting their headset on
-# so if we detect they hadn't put their headset on yet 
+# so if we detect they hadn't put their headset on yet
 # when we were scene switching, we prompt the user.
 #
 # Finally this shows an example of how to react to pause
@@ -23,57 +23,6 @@ extends XRToolsStaging
 # tracking data at this point.
 
 var scene_is_loaded : bool = false
-
-var webxr_interface: WebXRInterface
-var webxr_vr_is_supported := false
-
-# Called when this handle is added to the scene
-func _ready() -> void:
-	# In Godot 4 we must now manually call our super class ready function
-	super._ready()
-
-	webxr_interface = XRServer.find_interface('WebXR')
-	if webxr_interface:
-		webxr_interface.session_supported.connect(self._on_webxr_session_supported)
-		webxr_interface.session_started.connect(self._on_webxr_session_started)
-		webxr_interface.session_ended.connect(self._on_webxr_session_ended)
-		webxr_interface.session_failed.connect(self._on_webxr_session_failed)
-
-		webxr_interface.is_session_supported("immersive-vr")
-
-
-func _on_webxr_session_supported(session_mode: String, supported: bool) -> void:
-	if session_mode == "immersive-vr":
-		webxr_vr_is_supported = supported
-		if webxr_vr_is_supported:
-			%WebXRLayer.visible = true
-		else:
-			OS.alert("Your web browser doesn't support VR. Sorry!")
-
-
-func _on_webxr_session_started() -> void:
-	%WebXRLayer.visible = false
-	get_viewport().use_xr = true
-
-
-func _on_webxr_session_ended() -> void:
-	%WebXRLayer.visible = true
-	get_viewport().use_xr = false
-
-
-func _on_webxr_session_failed(message: String) -> void:
-	OS.alert("Unable to enter VR: " + message)
-	%WebXRLayer.visible = true
-
-
-func _on_webxr_enter_vr_button_pressed():
-	webxr_interface.session_mode = 'immersive-vr'
-	webxr_interface.requested_reference_space_types = 'bounded-floor, local-floor, local'
-	webxr_interface.required_features = 'local-floor'
-	webxr_interface.optional_features = 'bounded-floor'
-
-	if not webxr_interface.initialize():
-		OS.alert("Failed to initialize")
 
 
 func _on_Staging_scene_loaded(scene):

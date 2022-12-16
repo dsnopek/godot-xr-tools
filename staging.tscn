@@ -1,27 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://gccd8o3egmv7"]
+[gd_scene load_steps=4 format=3 uid="uid://gccd8o3egmv7"]
 
 [ext_resource type="PackedScene" uid="uid://bnqnnnet4dw12" path="res://addons/godot-xr-tools/staging/staging.tscn" id="1"]
 [ext_resource type="Script" path="res://staging.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://c2pn3hgso4x6e" path="res://addons/godot-xr-tools/webxr/enter_webxr_ui.tscn" id="3_fdyye"]
 
 [node name="Staging" instance=ExtResource("1")]
 script = ExtResource("2")
 main_scene = "res://scenes/main_menu/main_menu_level.tscn"
 
-[node name="WebXRLayer" type="CanvasLayer" parent="." index="5"]
-unique_name_in_owner = true
-
-[node name="EnterVRButton" type="Button" parent="WebXRLayer" index="0"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -132.0
-offset_top = -52.5
-offset_right = 132.0
-offset_bottom = 52.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Enter VR"
-
-[connection signal="pressed" from="WebXRLayer/EnterVRButton" to="." method="_on_webxr_enter_vr_button_pressed"]
+[node name="WebXRLayer" parent="." index="5" instance=ExtResource("3_fdyye")]

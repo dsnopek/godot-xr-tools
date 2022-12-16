@@ -1,13 +1,15 @@
 extends Node
 
-var _webxr_interface: WebXRInterface
+var webxr_interface: WebXRInterface
+
 
 func _ready() -> void:
-	_webxr_interface = XRServer.find_interface('WebXR')
+	webxr_interface = XRServer.find_interface('WebXR')
 
 
 func is_available() -> bool:
-	return _webxr_interface != null
+	return webxr_interface != null
+
 
 func _get_primary_input_action(p_controller: XRController3D) -> String:
 	match XRToolsUserSettings.webxr_primary:
@@ -16,13 +18,13 @@ func _get_primary_input_action(p_controller: XRController3D) -> String:
 			if not trackpad.is_zero_approx():
 				return "trackpad"
 			return "thumbstick"
-		
+
 		XRToolsUserSettings.WebXRPrimary.THUMBSTICK:
 			return "thumbstick"
-		
+
 		XRToolsUserSettings.WebXRPrimary.TRACKPAD:
 			return "trackpad"
-	
+
 	return "thumbstick"
 
 
@@ -40,5 +42,5 @@ func convert_input_action(p_controller: XRController3D, p_input_action: String) 
 		return _get_primary_input_action(p_controller) + "_click"
 	elif p_input_action == 'secondary_click':
 		return _get_secondary_input_action(p_controller) + "_click"
-	
+
 	return p_input_action
