@@ -256,8 +256,7 @@ func _physics_process(delta):
 				color = cant_teleport_color
 
 			# check our axis to see if we need to rotate
-			var real_rotation_action: String = XRToolsWebXR.convert_input_action(controller, rotation_action) if XRToolsWebXR.is_available() else rotation_action
-			teleport_rotation += (delta * controller.get_axis(real_rotation_action).x * -4.0)
+			teleport_rotation += (delta * controller.get_axis(rotation_action).x * -4.0)
 
 			# update target and colour
 			var target_basis = Basis()
