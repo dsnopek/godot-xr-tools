@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://dlp2e3e2r1fu8"]
+[gd_scene load_steps=12 format=3 uid="uid://dlp2e3e2r1fu8"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/functions/function_teleport.tscn" id="2"]
+[ext_resource type="Script" path="res://scenes/scene_base.gd" id="2_sq0a2"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="3"]
 [ext_resource type="PackedScene" uid="uid://dwc7cx5txw3ix" path="res://addons/godot-xr-tools/assets/player_body.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="5"]
@@ -14,6 +15,8 @@
 viewport_path = NodePath("Instructions/SubViewport")
 
 [node name="TeleportDemo" instance=ExtResource("1")]
+script = ExtResource("2_sq0a2")
+environment = null
 
 [node name="FunctionTeleport" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2")]
 

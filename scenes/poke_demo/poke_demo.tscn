@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://jjlrkbybhlrl"]
+[gd_scene load_steps=16 format=3 uid="uid://jjlrkbybhlrl"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://cus66d8b1gx5" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" id="2"]
+[ext_resource type="Script" path="res://scenes/scene_base.gd" id="2_sgf8o"]
 [ext_resource type="PackedScene" uid="uid://ce1ad2t853bw5" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_fullglove_low.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="5"]
@@ -16,6 +17,8 @@
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="14"]
 
 [node name="PokeDemo" instance=ExtResource("1")]
+script = ExtResource("2_sgf8o")
+environment = null
 
 [node name="BasicMap" parent="." index="0" instance=ExtResource("4")]
 

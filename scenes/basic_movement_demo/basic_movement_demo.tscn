@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=16 format=3 uid="uid://bt1ysfr63rggi"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
+[ext_resource type="Script" path="res://scenes/scene_base.gd" id="2_5ptmo"]
 [ext_resource type="PackedScene" uid="uid://caah5fxm8jb2l" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="2_54yy3"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
@@ -18,6 +19,8 @@
 viewport_path = NodePath("Instructions/SubViewport")
 
 [node name="BasicMovementDemo" instance=ExtResource("1")]
+script = ExtResource("2_5ptmo")
+environment = null
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_54yy3")]
 
