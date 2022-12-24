@@ -30,9 +30,7 @@ func _enter_tree():
 
 	# register our autoload user settings object
 	add_autoload_singleton("XRToolsUserSettings", "res://addons/godot-xr-tools/user_settings/user_settings.gd")
-	
-	# register our WebXR helper
-	add_autoload_singleton("XRToolsWebXR", "res://addons/godot-xr-tools/webxr/webxr.gd")
+
 
 func _exit_tree():
 	# our plugin is turned off

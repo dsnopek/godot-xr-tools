@@ -14,9 +14,10 @@ func _update():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if XRToolsWebXR.is_available():
+	var webxr_interface = XRServer.find_interface("WebXR")
+	if webxr_interface:
 		$Input/WebXR.visible = true
-	
+
 	if XRToolsUserSettings:
 		_update()
 	else:
@@ -46,11 +47,11 @@ func _on_PlayerHeightSlider_drag_ended(value_changed):
 func _on_PlayerHeightStandard_pressed():
 	if camera.is_empty():
 		return
-	
+
 	var camera_node = get_node_or_null(camera)
 	if !camera_node:
 		return
-	
+
 	var base_height = camera_node.transform.origin.y + player_head_height
 	var height_adjust = XRTools.get_player_standard_height() - base_height
 	XRToolsUserSettings.player_height_adjust = height_adjust

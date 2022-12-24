@@ -18,9 +18,20 @@ enum WebXRPrimary {
 ## Settings file name to persist user settings
 var settings_file_name : String = "user://xtools_user_settings.json"
 
+## Records the first input to generate input (thumbstick or trackpad).
+var webxr_auto_primary := 0
+
+
+## Emitted when the WebXR primary is changed (either by the user or auto detected).
+signal webxr_primary_changed (value)
+
 
 ## Called when the node enters the scene tree for the first time.
 func _ready():
+	var webxr_interface = XRServer.find_interface("WebXR")
+	if webxr_interface:
+		XRServer.tracker_added.connect(self._on_webxr_tracker_added)
+
 	_load()
 
 
@@ -30,6 +41,7 @@ func reset_to_defaults() -> void:
 	snap_turning = XRTools.get_default_snap_turning()
 	player_height_adjust = 0.0
 	webxr_primary = WebXRPrimary.AUTO
+	webxr_auto_primary = 0
 
 
 ## Set the player height adjust property
@@ -40,6 +52,21 @@ func set_player_height_adjust(new_value : float) -> void:
 ## Set the WebXR primary
 func set_webxr_primary(new_value : int) -> void:
 	webxr_primary = new_value
+	if webxr_primary == WebXRPrimary.AUTO:
+		if webxr_auto_primary == 0:
+			# Don't emit the signal yet, wait until we detect which to use.
+			pass
+		else:
+			webxr_primary_changed.emit(webxr_auto_primary)
+	else:
+		webxr_primary_changed.emit(webxr_primary)
+
+
+## Gets the WebXR primary (taking into account auto detection).
+func get_real_webxr_primary() -> int:
+	if webxr_primary == WebXRPrimary.AUTO:
+		return webxr_auto_primary
+	return webxr_primary
 
 
 ## Save the settings to file
@@ -94,3 +121,23 @@ func _load() -> void:
 		var player : Dictionary = data["player"]
 		if player.has("height_adjust"):
 			player_height_adjust = player["height_adjust"]
+
+
+## Used to connect to tracker events when using WebXR.
+func _on_webxr_tracker_added(tracker_name: StringName, type: int) -> void:
+	if tracker_name == &"left_hand" or tracker_name == &"right_hand":
+		var tracker := XRServer.get_tracker(tracker_name)
+		tracker.input_axis_changed.connect(self._on_webxr_axis_changed)
+
+
+## Used to auto detect which "primary" input gets used first.
+func _on_webxr_axis_changed(name: String, vector: Vector2) -> void:
+	if webxr_auto_primary == 0:
+		if name == "thumbstick":
+			webxr_auto_primary = WebXRPrimary.THUMBSTICK
+		elif name == "trackpad":
+			webxr_auto_primary = WebXRPrimary.TRACKPAD
+
+		if webxr_auto_primary != 0:
+			# Let the developer know which one is chosen.
+			webxr_primary_changed.emit(webxr_auto_primary)

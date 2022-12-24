@@ -1,15 +1,18 @@
 extends CanvasLayer
 
+var webxr_interface: WebXRInterface
+
 func _ready() -> void:
 	visible = false
 
-	if XRToolsWebXR.is_available():
-		XRToolsWebXR.webxr_interface.session_supported.connect(self._on_webxr_session_supported)
-		XRToolsWebXR.webxr_interface.session_started.connect(self._on_webxr_session_started)
-		XRToolsWebXR.webxr_interface.session_ended.connect(self._on_webxr_session_ended)
-		XRToolsWebXR.webxr_interface.session_failed.connect(self._on_webxr_session_failed)
+	webxr_interface = XRServer.find_interface("WebXR")
+	if webxr_interface:
+		webxr_interface.session_supported.connect(self._on_webxr_session_supported)
+		webxr_interface.session_started.connect(self._on_webxr_session_started)
+		webxr_interface.session_ended.connect(self._on_webxr_session_ended)
+		webxr_interface.session_failed.connect(self._on_webxr_session_failed)
 
-		XRToolsWebXR.webxr_interface.is_session_supported("immersive-vr")
+		webxr_interface.is_session_supported("immersive-vr")
 
 
 func _on_webxr_session_supported(session_mode: String, supported: bool) -> void:
@@ -36,10 +39,10 @@ func _on_webxr_session_failed(message: String) -> void:
 
 
 func _on_enter_vr_button_pressed():
-	XRToolsWebXR.webxr_interface.session_mode = 'immersive-vr'
-	XRToolsWebXR.webxr_interface.requested_reference_space_types = 'bounded-floor, local-floor, local'
-	XRToolsWebXR.webxr_interface.required_features = 'local-floor'
-	XRToolsWebXR.webxr_interface.optional_features = 'bounded-floor'
+	webxr_interface.session_mode = 'immersive-vr'
+	webxr_interface.requested_reference_space_types = 'bounded-floor, local-floor, local'
+	webxr_interface.required_features = 'local-floor'
+	webxr_interface.optional_features = 'bounded-floor'
 
-	if not XRToolsWebXR.webxr_interface.initialize():
-		OS.alert("Failed to initialize")
+	if not webxr_interface.initialize():
+		OS.alert("Failed to initialize WebXR")
