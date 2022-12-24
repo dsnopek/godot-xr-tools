@@ -6,6 +6,12 @@ enum WebXRPrimary {
 	TRACKPAD,
 }
 
+const WebXRPrimaryName := {
+	WebXRPrimary.AUTO: "auto",
+	WebXRPrimary.THUMBSTICK: "thumbstick",
+	WebXRPrimary.TRACKPAD: "trackpad",
+}
+
 ## User setting for snap-turn
 @export var snap_turning : bool = true
 

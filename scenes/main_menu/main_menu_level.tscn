@@ -23,7 +23,7 @@
 [ext_resource type="PackedScene" path="res://scenes/pickable_demo/pickable_demo.tscn" id="21"]
 [ext_resource type="Texture2D" uid="uid://ny4n43p3e3du" path="res://scenes/pickable_demo/pickable_demo.png" id="22"]
 [ext_resource type="PackedScene" uid="uid://ce1ad2t853bw5" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_fullglove_low.tscn" id="23_pr05t"]
-[ext_resource type="PackedScene" path="res://scenes/poke_demo/poke_demo.tscn" id="24_qtcxq"]
+[ext_resource type="PackedScene" uid="uid://jjlrkbybhlrl" path="res://scenes/poke_demo/poke_demo.tscn" id="24_qtcxq"]
 [ext_resource type="PackedScene" uid="uid://cus66d8b1gx5" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" id="25_2b81d"]
 [ext_resource type="Texture2D" uid="uid://bbe7o7pdq38m2" path="res://scenes/poke_demo/poke_demo.png" id="25_rg3rn"]
 [ext_resource type="PackedScene" uid="uid://3bsyhd7ehoa1" path="res://scenes/main_menu/objects/settings_ui.tscn" id="26_0uyxa"]
@@ -88,6 +88,9 @@ title = ExtResource("25_rg3rn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
 camera = NodePath("../XROrigin3D/XRCamera3D")
 
+[node name="LeftHand" parent="XROrigin3D" index="1"]
+unique_name_in_owner = true
+
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("23_pr05t")]
 
 [node name="Skeleton3D" parent="XROrigin3D/LeftHand/LeftHand/Hand_low_L/Armature" index="0"]
@@ -122,6 +125,9 @@ transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("6")]
 max_speed = 3.0
 strafe = true
+
+[node name="RightHand" parent="XROrigin3D" index="2"]
+unique_name_in_owner = true
 
 [node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("25_2b81d")]
 
