@@ -21,6 +21,9 @@ signal close_highlight_updated(pickable, enable)
 ## Grab distance
 @export var grab_distance : float = 0.3: set = _set_grab_distance
 
+## Require items to be directly placed on the snap zone.
+@export var require_direct_placement : bool = true
+
 ## Require snap items to be in specified group
 @export var snap_require : String = ""
 
@@ -58,7 +61,7 @@ func _ready():
 
 
 # Called on each frame to update the pickup
-func _process(_delta):
+func _physics_process(delta):
 	# Skip if not enabled
 	if not enabled:
 		return
@@ -69,6 +72,10 @@ func _process(_delta):
 
 	# Check for an object to grab
 	for o in _object_in_grab_area:
+		# skip objects that weren't just dropped
+		if require_direct_placement and "just_dropped" in o and not o.just_dropped:
+			continue
+
 		# skip objects that can not be picked up
 		if not o.can_pick_up(self):
 			continue

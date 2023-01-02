@@ -98,6 +98,9 @@ var by_controller : XRController3D = null
 ## Hand holding this item (may be null if held by snap-zone)
 var by_hand : XRToolsHand = null
 
+## Set to true on the frame after being dropped.
+var just_dropped : bool = false
+
 # Count of 'is_closest' grabbers
 var _closest_count: int = 0
 
@@ -115,6 +118,9 @@ var _grab_points : Array = []
 
 # Currently active grab-point
 var _active_grab_point : XRToolsGrabPoint
+
+# Count down frames after having been dropped.
+var _drop_count := 0
 
 
 # Remember some state so we can return to it when the user drops the object
@@ -277,6 +283,10 @@ func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
 		_move_to.queue_free()
 		_move_to = null
 
+	# Mark as "just dropped" for 3 physics frames.
+	just_dropped = true
+	_drop_count = 3
+
 	# let interested parties know
 	emit_signal("dropped", self)
 
@@ -393,3 +403,10 @@ func _get_grab_point(_grabber : Node) -> XRToolsGrabPoint:
 func _set_ranged_grab_method(new_value: int) -> void:
 	ranged_grab_method = new_value
 	can_ranged_grab = new_value != RangedMethod.NONE
+
+
+func _physics_process(_delta: float):
+	if just_dropped:
+		_drop_count -= 1
+		if _drop_count <= 0:
+			just_dropped = false
